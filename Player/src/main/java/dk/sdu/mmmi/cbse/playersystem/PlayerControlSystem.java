@@ -34,8 +34,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 player.setY(player.getY() + changeY);
             }
 
-            long currentTime = System.currentTimeMillis();
-            if (gameData.getKeys().isDown(GameKeys.SPACE)) {
+            if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
                 getBulletSPIs().stream().findFirst().ifPresent(
                         spi -> {
                             world.addEntity(spi.createBullet(player, gameData));
