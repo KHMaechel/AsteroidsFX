@@ -7,12 +7,8 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ServiceLoader;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
 import javafx.animation.AnimationTimer;
@@ -106,11 +102,12 @@ public class Main extends Application {
     }
 
     private void update() {
-
+        removeMissingEntities();
         // Update
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
             entityProcessorService.process(gameData, world);
         }
+
 //        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
 //            postEntityProcessorService.process(gameData, world);
 //        }
@@ -127,6 +124,19 @@ public class Main extends Application {
             polygon.setTranslateX(entity.getX());
             polygon.setTranslateY(entity.getY());
             polygon.setRotate(entity.getRotation());
+        }
+    }
+
+    // Removes entities from JavaFX gameWindow and polygons map, if they are not present in the 'world'
+    private void removeMissingEntities() {
+        Iterator<Map.Entry<Entity, Polygon>> iterator = polygons.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Entity, Polygon> entry = iterator.next();
+            Entity entity = entry.getKey();
+            if (!world.getEntities().contains(entity)) {
+                gameWindow.getChildren().remove(entry.getValue()); // Remove polygon from JavaFX Pane
+                iterator.remove();
+            }
         }
     }
 

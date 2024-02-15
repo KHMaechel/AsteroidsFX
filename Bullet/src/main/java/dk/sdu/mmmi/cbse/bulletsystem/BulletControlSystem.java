@@ -22,6 +22,15 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 
             bullet.setX(bullet.getX() + changeX);
             bullet.setY(bullet.getY() + changeY);
+
+            // Remove bullets when they reach the edge of the map
+            double displayWidth = gameData.getDisplayWidth();
+            double displayHeight = gameData.getDisplayHeight();
+            if (bullet.getX() < 0 || bullet.getX() > displayWidth || bullet.getY() < 0 || bullet.getY() > displayHeight) {
+                world.removeEntity(bullet);
+                break;
+            }
+            System.out.println(world.getEntities(Bullet.class).size());
         }
     }
 
@@ -36,9 +45,6 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
         return bullet;
 
 
-    }
-
-    private void setShape(Entity entity) {
     }
 
 }
