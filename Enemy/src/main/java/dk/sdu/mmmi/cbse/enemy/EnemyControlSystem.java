@@ -16,16 +16,6 @@ public class EnemyControlSystem implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
 
-        // Add enemies
-        int maxEnemies = world.getEntities(Enemy.class).size();
-        if( maxEnemies < 5 && Math.random()*1000 > 999) {
-            Entity enemy = new Enemy();
-            enemy.setPolygonCoordinates(-5,-5,10,0,-5,5);
-            enemy.setX(gameData.getDisplayWidth()*Math.random());
-            enemy.setY(gameData.getDisplayHeight()*Math.random());
-            enemy.setRotation((float) (Math.random()*360));
-            world.addEntity(enemy);
-        }
 
         // Enemy movement
         for (Entity enemy : world.getEntities(Enemy.class)) {
