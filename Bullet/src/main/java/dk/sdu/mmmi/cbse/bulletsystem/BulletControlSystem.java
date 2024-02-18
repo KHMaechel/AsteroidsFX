@@ -28,10 +28,8 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
             double displayHeight = gameData.getDisplayHeight();
             if (bullet.getX() < 0 || bullet.getX() > displayWidth || bullet.getY() < 0 || bullet.getY() > displayHeight) {
                 world.removeEntity(bullet);
-
-
             }
-            System.out.println(world.getEntities(Bullet.class).size());
+
         }
     }
 

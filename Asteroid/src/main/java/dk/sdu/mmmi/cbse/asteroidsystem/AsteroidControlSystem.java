@@ -1,6 +1,8 @@
 package dk.sdu.mmmi.cbse.asteroidsystem;
 
 import java.lang.Math;
+
+import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
@@ -56,6 +58,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             if (entity.getX() < -maxAsteroidSizeTimeTwo || entity.getX() > displayWidth * maxAsteroidSizeTimeTwo|| entity.getY() < -maxAsteroidSizeTimeTwo || entity.getY() > displayHeight + maxAsteroidSizeTimeTwo) {
                 world.removeEntity(entity);
             }
+            //System.out.println(world.getEntities(Asteroid.class).size());
         }
     }
 
