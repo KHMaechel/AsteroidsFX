@@ -2,6 +2,7 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
 module Asteroid {
+    exports dk.sdu.mmmi.cbse.asteroidsystem;
     requires Common;
     requires CommonBullet;
     uses dk.sdu.mmmi.cbse.common.bullet.BulletSPI;

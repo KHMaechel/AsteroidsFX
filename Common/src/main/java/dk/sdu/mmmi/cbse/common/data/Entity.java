@@ -11,6 +11,8 @@ public class Entity implements Serializable {
     private double x;
     private double y;
     private double rotation;
+    private float radius;
+    private int hp;
             
 
     public String getID() {
@@ -51,6 +53,20 @@ public class Entity implements Serializable {
     public double getRotation() {
         return rotation;
     }
-        
 
+    public float getRadius() {
+        return radius;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 }

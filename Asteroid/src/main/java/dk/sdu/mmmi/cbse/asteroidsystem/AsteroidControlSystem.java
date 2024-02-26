@@ -22,21 +22,9 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
 
-
-        if(Math.random()*1000 > 985) {
-        Random rnd = new Random();
-        int size = rnd.nextInt(5) + 20;
-        Entity asteroid = new Asteroid();
-        asteroid.setPolygonCoordinates(
-                size,-size,
-                0,-sqrt(2*size*size),
-                -size,-size,
-                -sqrt(2*size*size),0,
-                -size,size,
-                0,sqrt(2*size*size),
-                size, size,
-                sqrt(2*size*size),0,
-                size,-size);
+        // Create big asteroids from the edge
+        if(Math.random()*1000 > 990) {
+        Entity asteroid = createAsteroid(20);
 
         setAsteroidSpawnCoordinates(asteroid, gameData);
 
@@ -58,10 +46,42 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             if (entity.getX() < -maxAsteroidSizeTimeTwo || entity.getX() > displayWidth * maxAsteroidSizeTimeTwo|| entity.getY() < -maxAsteroidSizeTimeTwo || entity.getY() > displayHeight + maxAsteroidSizeTimeTwo) {
                 world.removeEntity(entity);
             }
-            //System.out.println(world.getEntities(Asteroid.class).size());
+
+            // split asteroids if hp <= 0
+            if (entity.getHp() <= 0 ){
+                if (entity.getRadius() > 20){
+                    Entity newAsteroid1 = splitAsteroid(entity);
+                    Entity newAsteroid2 = splitAsteroid(entity);
+                    world.addEntity(newAsteroid1);
+                    world.addEntity(newAsteroid2);
+                    world.removeEntity(entity);
+                } else {
+                    world.removeEntity(entity);
+                }
+
+            }
+
         }
     }
 
+    private Entity createAsteroid(int asteroidSize){
+        Random rnd = new Random();
+        int size = rnd.nextInt(5) + asteroidSize;
+        Entity asteroid = new Asteroid();
+        asteroid.setRadius((float) sqrt(2*size*size));
+        asteroid.setHp(2);
+        asteroid.setPolygonCoordinates(
+                size,-size,
+                0,-sqrt(2*size*size),
+                -size,-size,
+                -sqrt(2*size*size),0,
+                -size,size,
+                0,sqrt(2*size*size),
+                size, size,
+                sqrt(2*size*size),0,
+                size,-size);
+        return asteroid;
+    }
 
     private void setAsteroidSpawnCoordinates(Entity asteroid, GameData gameData){
         Random random = new Random();
@@ -89,9 +109,22 @@ public class AsteroidControlSystem implements IEntityProcessingService {
                 asteroid.setRotation(random.nextInt(230,310));
                 break;
         }
+    }
 
+    private Entity splitAsteroid(Entity oldAsteroid){
+
+        Entity newAsteroid = createAsteroid((int) (oldAsteroid.getRadius()-17));
+        newAsteroid.setX(oldAsteroid.getX());
+        newAsteroid.setY(oldAsteroid.getY());
+
+        Random random = new Random();
+        newAsteroid.setRotation(oldAsteroid.getRotation()+random.nextInt(-45, 45));
+        newAsteroid.setHp(2);
+        return newAsteroid;
 
     }
+
+
 
 
 }

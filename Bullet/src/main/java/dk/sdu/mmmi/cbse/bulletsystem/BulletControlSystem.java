@@ -38,9 +38,16 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 
         Entity bullet = new Bullet();
         bullet.setPolygonCoordinates(1, -1, 1, 1, -1, 1, -1, -1);
-        bullet.setX(shooter.getX());
-        bullet.setY(shooter.getY());
+
         bullet.setRotation(shooter.getRotation());
+
+        // place the bullet in front of the spaceship to avoid instant collision
+        double changeX = 8 * Math.cos(Math.toRadians(bullet.getRotation()));
+        double changeY = 8 * Math.sin(Math.toRadians(bullet.getRotation()));
+        bullet.setX(shooter.getX() + changeX);
+        bullet.setY(shooter.getY() + changeY);
+
+        bullet.setRadius(2);
         return bullet;
 
 
