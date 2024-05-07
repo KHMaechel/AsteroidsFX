@@ -7,6 +7,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.util.SPILocator;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -139,14 +140,14 @@ public class Main extends Application {
     }
 
     private Collection<? extends IGamePluginService> getPluginServices() {
-        return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return SPILocator.getInstance().locateAllSPIs(IGamePluginService.class);
     }
 
     private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-        return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return SPILocator.getInstance().locateAllSPIs(IEntityProcessingService.class);
     }
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-        return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return SPILocator.getInstance().locateAllSPIs(IPostEntityProcessingService.class);
     }
 }
