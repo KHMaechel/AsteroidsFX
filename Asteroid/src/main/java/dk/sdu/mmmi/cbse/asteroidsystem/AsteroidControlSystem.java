@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.cbse.asteroidsystem;
 
+import java.io.IOException;
 import java.lang.Math;
 
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
@@ -9,6 +10,8 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Random;
 import java.util.ServiceLoader;
@@ -49,6 +52,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
 
             // split asteroids if hp <= 0
             if (entity.getHp() <= 0 ){
+                updateScore();
                 if (entity.getRadius() > 20){
                     Entity newAsteroid1 = splitAsteroid(entity);
                     Entity newAsteroid2 = splitAsteroid(entity);
@@ -124,7 +128,24 @@ public class AsteroidControlSystem implements IEntityProcessingService {
 
     }
 
+    public void updateScore() {
+        try {
+            URL updateUrl = new URL("http://localhost:8080/update-score?point=1");
+            HttpURLConnection connection = (HttpURLConnection) updateUrl.openConnection();
+            connection.setRequestMethod("GET");
 
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Score updated");
+            } else {
+                System.out.println("Failed to update score: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
