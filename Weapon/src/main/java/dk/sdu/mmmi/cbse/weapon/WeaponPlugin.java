@@ -31,7 +31,6 @@ public class WeaponPlugin implements IGamePluginService, WeaponSPI {
     public void fire(Entity shooter, GameData gameData, World world) {
         switch (shooter.getNumberOfWeapons()) {
             case 1:
-                System.out.println("Player shoot");
                 getBulletSPIs()
                         .forEach(bulletSPI -> world.addEntity(bulletSPI.createBullet(shooter, gameData, BulletSPI.Placement.CENTER)));
                 break;

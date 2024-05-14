@@ -37,7 +37,6 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 
 
         Entity bullet = new Bullet();
-        System.out.println("bullet created");
         bullet.setPolygonCoordinates(1, -1, 1, 1, -1, 1, -1, -1);
         bullet.setRotation(shooter.getRotation());
         bullet.setSpeed(3);

@@ -45,10 +45,10 @@ public class PlayerControlSystem implements IEntityProcessingService {
                     spi.fire(player, gameData, world);
                 });
             }
-            if (getTotalScore() == 5) {
+            if (getLevel() == 3) {
                 player.setNumberOfWeapons(2);
             }
-            if (getTotalScore() == 10) {
+            if (getLevel() == 6) {
                 player.setNumberOfWeapons(3);
             }
 
@@ -73,19 +73,16 @@ public class PlayerControlSystem implements IEntityProcessingService {
         }
     }
 
-    private Collection<? extends BulletSPI> getBulletSPIs() {
-        return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
 
     private Collection<? extends WeaponSPI> getWeaponSPIs() {
         return ServiceLoader.load(WeaponSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 
-    private int getTotalScore() {
+    private int getLevel() {
         URL url;
         int score;
         try {
-            url = new URL("http://localhost:8080/score");
+            url = new URL("http://localhost:8080/level");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 

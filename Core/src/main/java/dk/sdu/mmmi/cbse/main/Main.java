@@ -33,6 +33,7 @@ public class Main extends Application {
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
     private int totalScore;
+    private int level;
     Text scoreText;
     public static void main(String[] args) {
         launch(Main.class);
@@ -41,8 +42,10 @@ public class Main extends Application {
     @Override
     public void start(Stage window) throws Exception {
         resetTotalScore();
+        resetLevel();
+        level = getLevel();
         totalScore = getTotalScore();
-        scoreText = new Text(10, 20, "Your points: " + totalScore);
+        scoreText = new Text(10, 20, "Your points: " + totalScore + "\nLevel: " + level);
         //Pane gameWindow = new Pane();
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(scoreText);
@@ -152,7 +155,8 @@ public class Main extends Application {
 
     private void updateScoreText(){
         totalScore = getTotalScore();
-        scoreText.setText("Your points: " + totalScore);
+        level = getLevel();
+        scoreText.setText("Your points: " + totalScore + "\nLevel: " + level);
     }
 
     private int getTotalScore() {
@@ -179,10 +183,52 @@ public class Main extends Application {
         }
         return score;
     }
+    private int getLevel() {
+        URL url;
+        int score;
+        try {
+            url = new URL("http://localhost:8080/level");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            connection.disconnect();
+            score = Integer.parseInt(String.valueOf(response));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return score;
+    }
 
     public void resetTotalScore() {
         try {
             URL updateUrl = new URL("http://localhost:8080/reset");
+            HttpURLConnection connection = (HttpURLConnection) updateUrl.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Score reset successfully.");
+            } else {
+                System.out.println("Failed to reset score. Response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void resetLevel() {
+        try {
+            URL updateUrl = new URL("http://localhost:8080/reset-level");
             HttpURLConnection connection = (HttpURLConnection) updateUrl.openConnection();
             connection.setRequestMethod("GET");
 
