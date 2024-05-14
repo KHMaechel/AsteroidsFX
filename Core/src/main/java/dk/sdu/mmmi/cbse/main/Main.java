@@ -9,9 +9,14 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.util.SPILocator;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import static java.util.stream.Collectors.toList;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -27,17 +32,20 @@ public class Main extends Application {
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
-
+    private int totalScore;
+    Text scoreText;
     public static void main(String[] args) {
         launch(Main.class);
     }
 
     @Override
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+        resetTotalScore();
+        totalScore = getTotalScore();
+        scoreText = new Text(10, 20, "Your points: " + totalScore);
         //Pane gameWindow = new Pane();
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        gameWindow.getChildren().add(text);
+        gameWindow.getChildren().add(scoreText);
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
@@ -98,6 +106,7 @@ public class Main extends Application {
                 draw();
                 removeMissingEntities();
                 gameData.getKeys().update();
+                updateScoreText();
             }
 
         }.start();
@@ -136,6 +145,57 @@ public class Main extends Application {
                 gameWindow.getChildren().remove(polygons.get(entity));
                 polygons.remove(entity);
             }
+        }
+    }
+
+
+
+    private void updateScoreText(){
+        totalScore = getTotalScore();
+        scoreText.setText("Your points: " + totalScore);
+    }
+
+    private int getTotalScore() {
+        URL url;
+        int score;
+        try {
+            url = new URL("http://localhost:8080/score");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            connection.disconnect();
+            score = Integer.parseInt(String.valueOf(response));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return score;
+    }
+
+    public void resetTotalScore() {
+        try {
+            URL updateUrl = new URL("http://localhost:8080/reset");
+            HttpURLConnection connection = (HttpURLConnection) updateUrl.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Score reset successfully.");
+            } else {
+                System.out.println("Failed to reset score. Response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
