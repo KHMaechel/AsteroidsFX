@@ -33,6 +33,11 @@ public class Collision implements IPostEntityProcessingService {
                     continue;
                 }
 
+                // Skip bullet collisions with its owner
+                if (entity1 instanceof Bullet && ((Bullet) entity1).getOwner() == entity2 ||
+                        entity2 instanceof Bullet && ((Bullet) entity2).getOwner() == entity1) {
+                    continue;
+                }
 
                 // If Player collides with Enemy or Asteroid: destroy both
                 if ((entity1.getClass().equals(Player.class) && (entity2.getClass().equals(Asteroid.class) || entity2.getClass().equals(Enemy.class)))

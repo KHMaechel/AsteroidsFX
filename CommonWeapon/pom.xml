@@ -9,7 +9,7 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>Enemy</artifactId>
+    <artifactId>CommonWeapon</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -19,13 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>CommonBullet</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>CommonWeapon</artifactId>
+            <artifactId>Common</artifactId>
             <version>1.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

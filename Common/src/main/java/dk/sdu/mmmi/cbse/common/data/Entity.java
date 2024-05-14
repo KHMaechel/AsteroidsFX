@@ -5,6 +5,13 @@ import java.util.UUID;
 
 public class Entity implements Serializable {
 
+    public enum EntityType {
+        BULLET,
+        PLAYER,
+        ENEMY,
+        ASTEROID,
+    }
+
     private final UUID ID = UUID.randomUUID();
     
     private double[] polygonCoordinates;
@@ -13,6 +20,9 @@ public class Entity implements Serializable {
     private double rotation;
     private float radius;
     private int hp;
+    private EntityType type;
+    private int numberOfWeapons;
+    private int speed;
             
 
     public String getID() {
@@ -68,5 +78,30 @@ public class Entity implements Serializable {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public EntityType getType() {
+        return type;
+    }
+
+    public void setType(EntityType type) {
+        this.type = type;
+    }
+
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getNumberOfWeapons() {
+        return numberOfWeapons;
+    }
+
+    public void setNumberOfWeapons(int numberOfWeapons) {
+        this.numberOfWeapons = numberOfWeapons;
     }
 }

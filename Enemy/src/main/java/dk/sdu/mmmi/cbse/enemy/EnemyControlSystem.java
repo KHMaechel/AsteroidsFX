@@ -5,6 +5,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.weapon.WeaponSPI;
 
 import java.util.Collection;
 import java.util.ServiceLoader;
@@ -65,11 +66,11 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
             // Shoot enemy bullet
             if(Math.random()*1000 > 994) {
-                getBulletSPIs().forEach(bulletSPI -> {
-                    Entity bullet = bulletSPI.createBullet(enemy, gameData);
-                    world.addEntity(bullet);
-                });
+                getWeaponSPIs().stream().findFirst().ifPresent(weaponSPIs -> weaponSPIs.fire(enemy, gameData, world));
             }
+
+
+
         }
 
     }
@@ -77,6 +78,8 @@ public class EnemyControlSystem implements IEntityProcessingService {
     private Collection<? extends BulletSPI> getBulletSPIs() {
         return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
-
+    private Collection<? extends WeaponSPI> getWeaponSPIs() {
+        return ServiceLoader.load(WeaponSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    }
 
 }

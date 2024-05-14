@@ -73,7 +73,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
         int size = rnd.nextInt(5) + asteroidSize;
         Entity asteroid = new Asteroid();
         asteroid.setRadius((float) sqrt(2*size*size));
-        asteroid.setHp(2);
+        asteroid.setHp(3);
         asteroid.setPolygonCoordinates(
                 size,-size,
                 0,-sqrt(2*size*size),

@@ -9,13 +9,12 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 
-    int speed = 3;
-
     @Override
     public void process(GameData gameData, World world) {
 
         for (Entity bullet : world.getEntities(Bullet.class)) {
 
+            int speed = bullet.getSpeed();
             // Calculate change in position
             double changeX = speed * Math.cos(Math.toRadians(bullet.getRotation()));
             double changeY = speed * Math.sin(Math.toRadians(bullet.getRotation()));
@@ -34,16 +33,38 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
     }
 
     @Override
-    public Entity createBullet(Entity shooter, GameData gameData) {
+    public Entity createBullet(Entity shooter, GameData gameData, Placement placement) {
+
 
         Entity bullet = new Bullet();
+        System.out.println("bullet created");
         bullet.setPolygonCoordinates(1, -1, 1, 1, -1, 1, -1, -1);
-
         bullet.setRotation(shooter.getRotation());
+        bullet.setSpeed(3);
+        double changeX;
+        double changeY;
 
-        // place the bullet in front of the spaceship to avoid instant collision
-        double changeX = 8 * Math.cos(Math.toRadians(bullet.getRotation()));
-        double changeY = 8 * Math.sin(Math.toRadians(bullet.getRotation()));
+        // place the bullet to the right, left or in front of the ship
+        switch(placement) {
+            case CENTER:
+                changeX = 8 * Math.cos(Math.toRadians(bullet.getRotation()));
+                changeY = 8 * Math.sin(Math.toRadians(bullet.getRotation()));
+                break;
+            case LEFT:
+                changeX = 10 * Math.cos(Math.toRadians(bullet.getRotation()-25));
+                changeY = 10 * Math.sin(Math.toRadians(bullet.getRotation()-25));
+                break;
+            case RIGHT:
+                changeX = 10 * Math.cos(Math.toRadians(bullet.getRotation()+25));
+                changeY = 10 * Math.sin(Math.toRadians(bullet.getRotation()+25));
+                break;
+            default:
+                changeX = 8 * Math.cos(Math.toRadians(bullet.getRotation()));
+                changeY = 8 * Math.sin(Math.toRadians(bullet.getRotation()));
+        }
+
+
+
         bullet.setX(shooter.getX() + changeX);
         bullet.setY(shooter.getY() + changeY);
 
