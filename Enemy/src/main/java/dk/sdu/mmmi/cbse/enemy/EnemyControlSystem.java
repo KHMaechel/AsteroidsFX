@@ -65,7 +65,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
 
             // Shoot enemy bullet
-            if(Math.random()*1000 > 994) {
+            if(Math.random()*1000 > 990) {
                 getWeaponSPIs().stream().findFirst().ifPresent(weaponSPIs -> weaponSPIs.fire(enemy, gameData, world));
             }
 

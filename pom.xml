@@ -7,6 +7,7 @@
     <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>AsteroidsJPMS</name>
+
     <repositories>
     </repositories>
 
@@ -22,6 +23,7 @@
         <module>Scoring</module>
         <module>CommonWeapon</module>
         <module>Weapon</module>
+        <module>UI</module>
     </modules>
     <properties>
         <java>java</java>

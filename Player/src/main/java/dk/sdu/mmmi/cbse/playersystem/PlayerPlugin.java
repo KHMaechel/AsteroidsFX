@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.cbse.playersystem;
 
+import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -19,8 +20,11 @@ public class PlayerPlugin implements IGamePluginService {
         player = createPlayerShip(gameData);
         player.setType(Entity.EntityType.PLAYER);
         player.setNumberOfWeapons(1);
+        player.setHp(2);
+        ((Player) player).setLife(3);
 
         world.addEntity(player);
+        gameData.setPlayer(player);
 
     }
 

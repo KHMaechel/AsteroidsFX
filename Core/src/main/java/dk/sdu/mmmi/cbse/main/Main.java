@@ -7,6 +7,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 import dk.sdu.mmmi.cbse.common.util.SPILocator;
 
 import java.io.BufferedReader;
@@ -25,6 +26,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import static java.util.stream.Collectors.toList;
 
 public class Main extends Application {
 
@@ -45,10 +48,13 @@ public class Main extends Application {
         resetLevel();
         level = getLevel();
         totalScore = getTotalScore();
-        scoreText = new Text(10, 20, "Your points: " + totalScore + "\nLevel: " + level);
+//        scoreText = new Text(10, 20, "Your points: " + totalScore + "\nLevel: " + level);
+//        gameWindow.getChildren().add(scoreText);
+
+
+
         //Pane gameWindow = new Pane();
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        gameWindow.getChildren().add(scoreText);
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
@@ -91,6 +97,10 @@ public class Main extends Application {
             gameWindow.getChildren().add(polygon);
         }
 
+        for (IUIProcessingService uiProcessingService : getUIProcessingServices()) {
+            uiProcessingService.generate(gameData, gameWindow);
+        }
+
         render();
 
         window.setScene(scene);
@@ -109,7 +119,7 @@ public class Main extends Application {
                 draw();
                 removeMissingEntities();
                 gameData.getKeys().update();
-                updateScoreText();
+                //updateScoreText();
             }
 
         }.start();
@@ -124,6 +134,9 @@ public class Main extends Application {
 
         for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
+        }
+        for (IUIProcessingService uiProcessingService : getUIProcessingServices()) {
+            uiProcessingService.process(gameData, gameWindow);
         }
     }
 
@@ -255,5 +268,9 @@ public class Main extends Application {
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
         return SPILocator.getInstance().locateAllSPIs(IPostEntityProcessingService.class);
+    }
+    private Collection<? extends IUIProcessingService> getUIProcessingServices() {
+        return ServiceLoader.load(IUIProcessingService.class).stream().map(ServiceLoader.Provider::get)
+                .collect(toList());
     }
 }

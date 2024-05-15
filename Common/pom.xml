@@ -9,14 +9,14 @@
     <artifactId>Common</artifactId>
     <packaging>jar</packaging>
     <name>Common</name>
-    
+
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>dk.sdu.mmmi.cbse</groupId>-->
-<!--            <artifactId>CommonWeapon</artifactId>-->
-<!--            <version>1.0.1-SNAPSHOT</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>21.0.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

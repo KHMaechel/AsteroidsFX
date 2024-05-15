@@ -15,7 +15,7 @@ import java.util.ServiceLoader;
 import static java.util.stream.Collectors.toList;
 
 public class WeaponPlugin implements IGamePluginService, WeaponSPI {
-    private final Random random = new Random();
+
 
     @Override
     public void start(GameData gameData, World world) {

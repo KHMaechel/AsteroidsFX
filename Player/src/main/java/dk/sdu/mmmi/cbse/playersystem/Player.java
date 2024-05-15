@@ -8,4 +8,13 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
  */
 public class Player extends Entity {
 
+    private int life;
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
 }

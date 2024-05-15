@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.ServiceLoader;
 
@@ -25,7 +26,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world) {
-
+        respawn( gameData, world);
         for (Entity player : world.getEntities(Player.class)) {
             if (gameData.getKeys().isDown(GameKeys.LEFT)) {
                 player.setRotation(player.getRotation() - 3);
@@ -51,6 +52,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
             if (getLevel() == 6) {
                 player.setNumberOfWeapons(3);
             }
+
 
 
             if (player.getX() < 0) {
@@ -101,5 +103,22 @@ public class PlayerControlSystem implements IEntityProcessingService {
             throw new RuntimeException(e);
         }
         return score;
+    }
+
+    private void respawn(GameData gameData, World world) {
+        Player player = null;
+        if (world.getEntities(Player.class).isEmpty()) {
+            player = (Player) gameData.getPlayer();
+            if (player.getLife() == 0) {
+                return;
+            }
+            else {
+                player.setX(gameData.getDisplayWidth() / 2);
+                player.setY(gameData.getDisplayHeight() / 2);
+                world.addEntity(gameData.getPlayer());
+                player.setLife(player.getLife()-1);
+                System.out.println("Life: " + player.getLife());
+            }
+        }
     }
 }
