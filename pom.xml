@@ -18,15 +18,15 @@
         <module>CommonBullet</module>
         <module>Enemy</module>
         <module>Asteroid</module>
-        <module>Collision</module>
+<!--        <module>Collision</module>-->
     </modules>
     <properties>
         <java>java</java>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>        
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.9</maven.compiler.source>
         <maven.compiler.target>1.9</maven.compiler.target>
     </properties>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -35,7 +35,7 @@
                 <version>21.0.2</version>
             </dependency>
         </dependencies>
-    </dependencyManagement>    
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>
@@ -49,7 +49,7 @@
                     <fork>true</fork>
                 </configuration>
             </plugin>
-            <!-- execute the resulting project -->
+<!--             execute the resulting project-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -67,7 +67,7 @@
                     <workingDirectory>.</workingDirectory>
                     <longModulepath>false</longModulepath>
                     <arguments>
-                        <!--                        
+                        <!--
                                                 On Mac Devices this line should not be commented out
                                                 <argument>-XstartOnFirstThread</argument>
                         -->
@@ -87,6 +87,24 @@
                     </arguments>
                 </configuration>
             </plugin>
+
+<!--            <plugin>-->
+<!--                <groupId>org.codehaus.mojo</groupId>-->
+<!--                <artifactId>exec-maven-plugin</artifactId>-->
+<!--                <version>1.6.0</version>-->
+<!--                <configuration>-->
+<!--                    <executable>${java}</executable>-->
+<!--                    <arguments>-->
+<!--                        <argument>-Djava.library.path=libs</argument>-->
+<!--                        <argument>&#45;&#45;module-path=mods-mvn</argument> &lt;!&ndash; Ensure Enemy is not in mods-mvn &ndash;&gt;-->
+<!--                        <argument>&#45;&#45;class-path=libs/*</argument>-->
+<!--                        <argument>&#45;&#45;module=Core/dk.sdu.mmmi.cbse.main.Main</argument>-->
+<!--                        <argument>&#45;&#45;add-modules javafx.graphics</argument>-->
+<!--                        <argument>&#45;&#45;add-modules ALL-MODULE-PATH</argument>-->
+<!--                    </arguments>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
         </plugins>
     </build>
 
