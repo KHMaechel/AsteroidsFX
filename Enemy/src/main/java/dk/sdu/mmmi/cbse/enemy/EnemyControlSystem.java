@@ -18,8 +18,9 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
 
         // Add enemy if none exist
-        int maxEnemies = world.getEntities(Enemy.class).size();
-        if( maxEnemies < 1 && Math.random()*1000 > 999) {
+        int maxEnemies = gameData.getLevel();
+        int numberOfEnemies = world.getEntities(Enemy.class).size();
+        if( numberOfEnemies < maxEnemies && Math.random()*1000 > 990) {
             EnemyPlugin ep = new EnemyPlugin();
             Entity enemy = ep.createEnemyShip(gameData);
             world.addEntity(enemy);
@@ -75,9 +76,6 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
     }
 
-    private Collection<? extends BulletSPI> getBulletSPIs() {
-        return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
     private Collection<? extends WeaponSPI> getWeaponSPIs() {
         return ServiceLoader.load(WeaponSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
