@@ -14,6 +14,7 @@ public class EnemyPlugin implements IGamePluginService {
         world.addEntity(enemy);
     }
 
+
     public Entity createEnemyShip(GameData gameData) {
         Entity enemy = new Enemy();
         enemy.setType(Entity.EntityType.ENEMY);
@@ -29,6 +30,10 @@ public class EnemyPlugin implements IGamePluginService {
 
     @Override
     public void stop(GameData gameData, World world) {
-        world.removeEntity(enemy);
+        for (dk.sdu.mmmi.cbse.common.data.Entity entity : world.getEntities()) {
+            if (entity.getType() == Entity.EntityType.ENEMY) {
+                world.removeEntity(entity);
+            }
+        }
     }
 }

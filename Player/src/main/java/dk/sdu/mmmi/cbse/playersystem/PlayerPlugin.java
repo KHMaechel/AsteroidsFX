@@ -20,11 +20,12 @@ public class PlayerPlugin implements IGamePluginService {
         player = createPlayerShip(gameData);
         player.setType(Entity.EntityType.PLAYER);
         player.setNumberOfWeapons(1);
-        player.setHp(2);
+        player.setHp(3);
         ((Player) player).setLife(3);
 
         world.addEntity(player);
         gameData.setPlayer(player);
+        System.out.println("Player Added");
 
     }
 
@@ -35,14 +36,17 @@ public class PlayerPlugin implements IGamePluginService {
         playerShip.setX(gameData.getDisplayHeight() / 2);
         playerShip.setY(gameData.getDisplayWidth() / 2);
         playerShip.setRadius(8);
-        playerShip.setHp(5);
         return playerShip;
     }
 
     @Override
     public void stop(GameData gameData, World world) {
         // Remove entities
-        world.removeEntity(player);
+        for (dk.sdu.mmmi.cbse.common.data.Entity entity : world.getEntities()) {
+            if (entity.getType() == Entity.EntityType.PLAYER) {
+                world.removeEntity(entity);
+            }
+        }
     }
 
 }

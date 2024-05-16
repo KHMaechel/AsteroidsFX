@@ -46,10 +46,11 @@ public class PlayerControlSystem implements IEntityProcessingService {
                     spi.fire(player, gameData, world);
                 });
             }
-            if (getLevel() == 3) {
+            // Change weapon when you level up
+            if (gameData.getLevel() == 3) {
                 player.setNumberOfWeapons(2);
             }
-            if (getLevel() == 6) {
+            if (gameData.getLevel() == 6) {
                 player.setNumberOfWeapons(3);
             }
 
@@ -80,37 +81,13 @@ public class PlayerControlSystem implements IEntityProcessingService {
         return ServiceLoader.load(WeaponSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 
-    private int getLevel() {
-        URL url;
-        int score;
-        try {
-            url = new URL("http://localhost:8080/level");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-            connection.disconnect();
-            score = Integer.parseInt(String.valueOf(response));
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return score;
-    }
 
     private void respawn(GameData gameData, World world) {
-        Player player = null;
+        Player player;
         if (world.getEntities(Player.class).isEmpty()) {
             player = (Player) gameData.getPlayer();
             if (player.getLife() == 0) {
-                return;
+                gameData.setGameOver(true);
             }
             else {
                 player.setX(gameData.getDisplayWidth() / 2);
