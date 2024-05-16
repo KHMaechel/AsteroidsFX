@@ -13,6 +13,8 @@ public class GameData {
     private final GameKeys keys = new GameKeys();
     private boolean isGameOver = false;
     private boolean isNewGame = false;
+    private boolean isGamePaused = false;
+
     private Entity player;
 
     public GameKeys getKeys() {
@@ -57,6 +59,14 @@ public class GameData {
 
     public void setPlayer(Entity player) {
         this.player = player;
+    }
+
+    public boolean isGamePaused() {
+        return isGamePaused;
+    }
+
+    public void setGamePaused(boolean gamePaused) {
+        isGamePaused = gamePaused;
     }
 
     public int getTotalScore() {

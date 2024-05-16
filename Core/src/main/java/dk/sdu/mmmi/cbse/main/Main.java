@@ -59,6 +59,9 @@ public class Main extends Application {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 gameData.getKeys().setKey(GameKeys.ENTER, true);
             }
+            if (event.getCode().equals(KeyCode.P)) {
+                gameData.getKeys().setKey(GameKeys.P, true);
+            }
         });
         scene.setOnKeyReleased(event -> {
             if (event.getCode().equals(KeyCode.LEFT)) {
@@ -75,6 +78,9 @@ public class Main extends Application {
             }
             if (event.getCode().equals(KeyCode.ENTER)) {
                 gameData.getKeys().setKey(GameKeys.ENTER, false);
+            }
+            if (event.getCode().equals(KeyCode.P)) {
+                gameData.getKeys().setKey(GameKeys.P, false);
             }
 
         });
@@ -136,15 +142,14 @@ public class Main extends Application {
             for (IGamePluginService iGamePlugin : getPluginServices()) {
                 iGamePlugin.start(gameData, world);
             }
-
         }
-
         // has to be executed after the iGamePlugin.start loop
-        if (!gameData.isGameOver()) {
+        if (!gameData.isGamePaused() && !gameData.isGameOver()) {
             for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
                 entityProcessorService.process(gameData, world);
             }
         }
+
     }
 
     private void draw() {
