@@ -1,6 +1,6 @@
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
-import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.weapon.WeaponSPI;
+import dk.sdu.mmmi.cbse.weapon.WeaponControlSystem;
 
 module Weapon {
     requires Common;
@@ -8,7 +8,6 @@ module Weapon {
     requires CommonWeapon;
     requires Player;
     requires Enemy;
-    provides IGamePluginService with dk.sdu.mmmi.cbse.weapon.WeaponPlugin;
     uses BulletSPI;
-    provides WeaponSPI with dk.sdu.mmmi.cbse.weapon.WeaponPlugin;
+    provides WeaponSPI with WeaponControlSystem;
 }
