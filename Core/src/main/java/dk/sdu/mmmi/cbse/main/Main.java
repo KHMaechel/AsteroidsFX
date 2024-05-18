@@ -193,8 +193,7 @@ public class Main extends Application {
     }
     private Collection<? extends IUIProcessingService> getUIProcessingServices() {
         return SPILocator.getInstance().locateAllSPIs(IUIProcessingService.class);
-//        return ServiceLoader.load(IUIProcessingService.class).stream().map(ServiceLoader.Provider::get)
-//                .collect(toList());
+
     }
 
 }
