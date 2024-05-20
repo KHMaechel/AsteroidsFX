@@ -24,6 +24,7 @@
         <module>CommonWeapon</module>
         <module>Weapon</module>
         <module>UI</module>
+        <module>CommonAsteroid</module>
     </modules>
     <properties>
         <java>java</java>

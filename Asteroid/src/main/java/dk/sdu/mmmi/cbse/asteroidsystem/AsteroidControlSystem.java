@@ -3,8 +3,7 @@ package dk.sdu.mmmi.cbse.asteroidsystem;
 import java.io.IOException;
 import java.lang.Math;
 
-import dk.sdu.mmmi.cbse.common.bullet.Bullet;
-import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
+import dk.sdu.mmmi.cbse.asteroid.Asteroid;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -12,11 +11,9 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Collection;
 import java.util.Random;
-import java.util.ServiceLoader;
+
 import static java.lang.Math.sqrt;
-import static java.util.stream.Collectors.toList;
 
 
 public class AsteroidControlSystem implements IEntityProcessingService {
