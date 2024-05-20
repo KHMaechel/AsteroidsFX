@@ -6,8 +6,8 @@ import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.enemy.Enemy;
-import dk.sdu.mmmi.cbse.playersystem.Player;
+import dk.sdu.mmmi.cbse.common.enemy.Enemy;
+import dk.sdu.mmmi.cbse.common.player.Player;
 
 public class Collision implements IPostEntityProcessingService {
 

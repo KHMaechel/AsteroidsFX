@@ -2,7 +2,7 @@ package dk.sdu.mmmi.cbse.life;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 import javafx.scene.layout.Pane;
-import dk.sdu.mmmi.cbse.playersystem.Player;
+import dk.sdu.mmmi.cbse.common.player.Player;
 import javafx.scene.text.Text;
 
 public class PlayerLife implements IUIProcessingService{

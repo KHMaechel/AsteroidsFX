@@ -6,6 +6,6 @@ module UI {
 
     requires Common;
     requires javafx.graphics;
-    requires Player;
+    requires CommonPlayer;
     provides IUIProcessingService with PlayerLife, Score, Level, GameOver, Pause;
 }
