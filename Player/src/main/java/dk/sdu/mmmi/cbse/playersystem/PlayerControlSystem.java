@@ -88,6 +88,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 player.setY(gameData.getDisplayHeight() / 2);
                 world.addEntity(gameData.getPlayer());
                 player.setLife(player.getLife()-1);
+                player.setHp(3);
                 System.out.println("Life: " + player.getLife());
             }
         }
