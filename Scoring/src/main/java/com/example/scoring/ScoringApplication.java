@@ -38,11 +38,6 @@ public class ScoringApplication {
         totalScore = 0;
     }
 
-    @GetMapping("/update-level")
-    public void updateLevel() {
-        totalScore ++;
-    }
-
     @GetMapping("/level")
     public String getLevel() {
         return String.valueOf(level);

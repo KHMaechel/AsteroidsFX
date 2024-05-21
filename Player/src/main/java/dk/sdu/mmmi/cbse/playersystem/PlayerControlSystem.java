@@ -38,8 +38,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
             if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
                 getWeaponSPIs().stream()
                         .filter(spi -> player.getNumberOfWeapons() == (spi.getNumberOfBulletsIdentifier()))
-                        .findFirst()
-                        .ifPresent(spi -> {
+                        .findFirst().ifPresent(spi -> {
                             spi.fire(player, gameData, world);
                         });
             }
