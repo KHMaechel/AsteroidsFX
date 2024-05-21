@@ -39,22 +39,31 @@ public class Collision implements IPostEntityProcessingService {
                     continue;
                 }
 
+                // Enemy Bullets should not collide with Asteroids and Enemies
+                if (entity1.getClass().equals(Bullet.class) && (entity2.getClass().equals(Enemy.class) || entity2.getClass().equals(Asteroid.class))) {
+                    if (((Bullet) entity1).getOwner().getType().equals(Entity.EntityType.ENEMY)) {
+                        continue;
+                    }
+                }
+
+
                 // If Player collides with Enemy or Asteroid: destroy both
                 if ((entity1.getClass().equals(Player.class) && (entity2.getClass().equals(Asteroid.class) || entity2.getClass().equals(Enemy.class)))
-                        ||(entity2.getClass().equals(Player.class) && (entity1.getClass().equals(Asteroid.class) || entity1.getClass().equals(Enemy.class))) ) {
+                        || (entity2.getClass().equals(Player.class) && (entity1.getClass().equals(Asteroid.class) || entity1.getClass().equals(Enemy.class)))) {
                     if (this.collides(entity1, entity2)) {
                         world.removeEntity(entity1);
                         world.removeEntity(entity2);
                     }
                 }
 
+
                 // If spaceship or asteroid collides with bullet: - 1 hp:
-                if (entity1.getClass().equals(Bullet.class) && (entity2.getClass().equals(Player.class) || entity2.getClass().equals(Enemy.class) || entity2.getClass().equals(Asteroid.class)) ) {
+                if (entity1.getClass().equals(Bullet.class) && (entity2.getClass().equals(Player.class) || entity2.getClass().equals(Enemy.class) || entity2.getClass().equals(Asteroid.class))) {
                     if (this.collides(entity1, entity2)) {
                         world.removeEntity(entity1);
-                        entity2.setHp(entity2.getHp()-1);
+                        entity2.setHp(entity2.getHp() - 1);
                         // remove player and enemy. Asteroid removal is handled in the Asteroid module, since they might split
-                        if (entity2.getHp() <= 0 && (entity2.getClass().equals(Player.class) || entity2.getClass().equals(Enemy.class)) ) {
+                        if (entity2.getHp() <= 0 && (entity2.getClass().equals(Player.class) || entity2.getClass().equals(Enemy.class))) {
                             world.removeEntity(entity2);
                         }
                     }
@@ -65,6 +74,7 @@ public class Collision implements IPostEntityProcessingService {
         }
 
     }
+
     // CircularCollision (Should use Pythagoras)
     public Boolean collides(Entity entity1, Entity entity2) {
         float deltaX = (float) entity1.getX() - (float) entity2.getX();
