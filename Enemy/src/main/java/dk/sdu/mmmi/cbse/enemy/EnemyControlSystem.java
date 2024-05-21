@@ -17,7 +17,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
     public void process(GameData gameData, World world) {
 
 
-        // Add enemy if none exist
+        // Add enemy if number of enemies < max number of allowed enemies
         int maxEnemies = gameData.getLevel();
         int numberOfEnemies = world.getEntities(Enemy.class).size();
         if( numberOfEnemies < maxEnemies && Math.random()*1000 > 990) {
@@ -67,7 +67,12 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
             // Shoot enemy bullet
             if(Math.random()*1000 > 990) {
-                getWeaponSPIs().stream().findFirst().ifPresent(weaponSPIs -> weaponSPIs.fire(enemy, gameData, world));
+                getWeaponSPIs().stream()
+                        .filter(spi -> enemy.getNumberOfWeapons() == (spi.getNumberOfBulletsIdentifier()))
+                        .findFirst()
+                        .ifPresent(spi -> {
+                            spi.fire(enemy, gameData, world);
+                        });
             }
 
 

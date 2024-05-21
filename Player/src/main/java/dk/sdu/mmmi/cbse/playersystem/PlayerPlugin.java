@@ -15,18 +15,11 @@ public class PlayerPlugin implements IGamePluginService {
 
     @Override
     public void start(GameData gameData, World world) {
-
         // Add entities to the world
         player = createPlayerShip(gameData);
-        player.setType(Entity.EntityType.PLAYER);
-        player.setNumberOfWeapons(1);
-        player.setHp(3);
         ((Player) player).setLife(3);
-
         world.addEntity(player);
         gameData.setPlayer(player);
-        System.out.println("Player Added");
-
     }
 
     private Entity createPlayerShip(GameData gameData) {
@@ -36,6 +29,9 @@ public class PlayerPlugin implements IGamePluginService {
         playerShip.setX(gameData.getDisplayHeight() / 2);
         playerShip.setY(gameData.getDisplayWidth() / 2);
         playerShip.setRadius(8);
+        playerShip.setType(Entity.EntityType.PLAYER);
+        playerShip.setNumberOfWeapons(1);
+        playerShip.setHp(3);
         return playerShip;
     }
 

@@ -36,9 +36,12 @@ public class PlayerControlSystem implements IEntityProcessingService {
             }
 
             if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
-                getWeaponSPIs().stream().findFirst().ifPresent(spi -> {
-                    spi.fire(player, gameData, world);
-                });
+                getWeaponSPIs().stream()
+                        .filter(spi -> player.getNumberOfWeapons() == (spi.getNumberOfBulletsIdentifier()))
+                        .findFirst()
+                        .ifPresent(spi -> {
+                            spi.fire(player, gameData, world);
+                        });
             }
             // Change weapon when you level up
             if (gameData.getLevel() == 3) {
